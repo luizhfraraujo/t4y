@@ -10,16 +10,25 @@ module.exports = {
       parameters,
       generateModel,
       //template: { generate },
-      print: { info },
+      print: { info, error },
     } = toolbox
 
-    const type = parameters.first
-    const name = parameters.second
+    const type = parameters.first;
+    const name = parameters.second;
 
-    if (type === 'model') {
-      await generateModel('src/models', name)
+    info(parameters);
+
+    switch (type.toLowerCase()) {
+      case 'model': {
+        await generateModel('src/models', name)
+        break;
+      }
+
+      default: {
+        error("Type must be passed");
+        return;
+      }
     }
-
 
     //
 
@@ -32,6 +41,5 @@ module.exports = {
 
     // info(`Generated file at models/${name}-model.js`)
 
-    info(parameters);
   },
 }
